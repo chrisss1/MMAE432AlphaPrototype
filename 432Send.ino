@@ -1,14 +1,15 @@
 #include <SoftwareSerial.h>
+#include <Servo.h>
 #define setPin 4
 int platPot = A0;     // select the input pin for the potentiometer
 int indPot = A1;      // potentiometer pin for individual motor speed
-int ledPin = 8;       // select the pin for the LED
-int buttonPin = 7;    // push button pin
+int ledPin = 13;       // select the pin for the LED
+int buttonPin = 8;    // push button pin
 int val = 0; 
 
 Servo ESC1;
 
-SoftwareSerial HC12(3, 2);              // HC-12 TX Pin, HC-12 RX Pin
+SoftwareSerial HC12(11, 10);              // HC-12 TX Pin, HC-12 RX Pin
 
 void setup() {
   Serial.begin(9600);                   // Open serial port to computer
@@ -19,13 +20,13 @@ void setup() {
   
   pinMode(ledPin, OUTPUT);              // declare LED as output
   pinMode(buttonPin, INPUT);            // declare pushbutton as input
-  pinMode(setPin, OUTPUT);
+  //pinMode(setPin, OUTPUT);
   
-  digitalWrite(setPin, LOW);
-  delay(250);
-  HC12.write("AT+DEFAULT");
-  delay(250);
-  digitalWrite(setPin, HIGH);           // HC-12 normal, transparent mode
+  //digitalWrite(setPin, LOW);
+  //delay(250);
+  //HC12.write("AT+DEFAULT");
+  //delay(250);
+  //digitalWrite(setPin, HIGH);           // HC-12 normal, transparent mode
 }
 
 void loop() 
@@ -33,11 +34,10 @@ void loop()
 
   val = digitalRead(buttonPin);         // read input value
   if (val == HIGH) {                    // check if the input is HIGH (button released)
-    digitalWrite(ledPin, LOW);          // turn LED OFF
+    digitalWrite(ledPin, HIGH);          // turn LED ON
   } else {
-    digitalWrite(ledPin, HIGH);         // turn LED ON
+    digitalWrite(ledPin, LOW);         // turn LED OFF
   }
-  delay(20)
   
   while (ledPin == 1) 
   {
@@ -48,6 +48,7 @@ void loop()
     int individualSpeed = analogRead(indPot);
     indiviudalSpeed = map(individualSpeed, 0, 1023, 0, 180);
     
+    Serial.println(platformSpeed);
     Serial.println(individualSpeed);
     HC12.println(individualSpeed);
     
@@ -58,7 +59,7 @@ void loop()
     {                  
       digitalWrite(ledPin, LOW);            // turn LED OFF
       HC12.println(0);
-      ESC1.write(platformSpeed);
+      ESC1.write(0);
     } 
     else 
     {
