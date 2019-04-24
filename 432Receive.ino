@@ -40,7 +40,7 @@ void loop()
     
   }
 
-  delay(10)                                  //Delay for reading stability
+  delay(10);                                  //Delay for reading stability
 
 
 
