@@ -32,9 +32,7 @@ void loop()
     if (HC12.available() > 1)               //If there is data in the buffer
     {
 
-      int input = HC12.readStringUntil(10); //reads the incoming data until a new line is detected
-      
-      input = input.toInt();                //converts string to integer
+      int input = HC12.parseInt();              //converts string to integer
       
       ESC1.write(input);
       ESC2.write(input);
