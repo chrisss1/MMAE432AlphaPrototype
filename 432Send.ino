@@ -4,8 +4,7 @@
 int platPot = A0;     // select the input pin for the potentiometer
 int indPot = A1;      // potentiometer pin for individual motor speed
 int ledPin = 13;       // select the pin for the LED
-int buttonPin = 8;    // push button pin
-int val = 0; 
+int buttonPin = 8;    // push button pin 
 
 Servo ESC1;
 
@@ -32,38 +31,48 @@ void setup() {
 void loop() 
 {
 
-  val = digitalRead(buttonPin);         // read input value
-  if (val == HIGH) {                    // check if the input is HIGH (button released)
+  int val = digitalRead(buttonPin);         // read input value
+  //Serial.println(val);
+  int led = 0;
+  if (val == HIGH) {                    // button pressed (HIGH)
     digitalWrite(ledPin, HIGH);          // turn LED ON
+    led = 1;
   } else {
     digitalWrite(ledPin, LOW);         // turn LED OFF
+    led = 0;
   }
+
+
   
-  while (ledPin == 1) 
+  while (led == 1) 
   {
     
     int platformSpeed = analogRead(platPot);
     platformSpeed = map(platformSpeed, 0, 1023, 0, 180);
     
     int individualSpeed = analogRead(indPot);
-    indiviudalSpeed = map(individualSpeed, 0, 1023, 0, 180);
+    individualSpeed = map(individualSpeed, 0, 1023, 0, 180);
     
     Serial.println(platformSpeed);
     Serial.println(individualSpeed);
     HC12.println(individualSpeed);
     
     ESC1.write(platformSpeed);
-    
-    button = digitalRead(buttonPin);
-    if (val == HIGH)                        // check if the input is HIGH (button released)
+
+    delay(100);
+ 
+    int button = digitalRead(buttonPin);
+    if (button == LOW)                      //button released (LOW)
     {                  
-      digitalWrite(ledPin, LOW);            // turn LED OFF
-      HC12.println(0);
-      ESC1.write(0);
+      digitalWrite(ledPin, HIGH);           // turn LED ON
     } 
     else 
     {
-      digitalWrite(ledPin, HIGH);           // turn LED ON
+      digitalWrite(ledPin, LOW);            // turn LED OFF
+      HC12.println(0);
+      ESC1.write(0);
+      led = 0;
+      delay(200);
     }
     
   }
