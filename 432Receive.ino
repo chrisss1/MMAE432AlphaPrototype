@@ -31,6 +31,7 @@ void loop()
 
     int input = HC12.parseInt();              //converts string to integer
 
+    Serial.println(input);
     ESC1.write(input);
     ESC2.write(input);
 
