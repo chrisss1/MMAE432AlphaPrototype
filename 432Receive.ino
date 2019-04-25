@@ -10,9 +10,10 @@ void setup() {
   Serial.begin(9600);                   // Open serial port to computer
   HC12.begin(9600);                     // Open serial port to HC12
 
-  ESC1.attach(8,1000,2000);
+  ESC1.attach(8);
   ESC1.write(0);
-  ESC1.attach(9,1000,2000);
+  delay(100);
+  ESC1.attach(9);
   ESC1.write(0);
   //pinMode(setPin, OUTPUT);
   
