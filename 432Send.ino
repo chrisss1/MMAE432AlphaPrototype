@@ -14,7 +14,7 @@ void setup() {
   Serial.begin(9600);                   // Open serial port to computer
   HC12.begin(9600);                     // Open serial port to HC12
   
-  ESC1.attach(8);
+  ESC1.attach(9);
   ESC1.write(0);
   
   pinMode(ledPin, OUTPUT);              // declare LED as output
@@ -48,10 +48,10 @@ void loop()
   {
     
     int platformSpeed = analogRead(platPot);
-    platformSpeed = map(platformSpeed, 0, 1023, 0, 180);
+    platformSpeed = map(platformSpeed, 0, 1023, 0, 90);
     
     int individualSpeed = analogRead(indPot);
-    individualSpeed = map(individualSpeed, 0, 1023, 0, 180);
+    individualSpeed = map(individualSpeed, 0, 1023, 0, 90);
     
     Serial.println(platformSpeed);
     Serial.println(individualSpeed);
